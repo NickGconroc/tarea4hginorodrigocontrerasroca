@@ -29,7 +29,8 @@ public class Animal {
      * Tipo, que puede ser: "gato", "perro", "lagarto", "cobaya", "periquito".
      * El tipo una vez establecido no se puede cambiar.
      */
-    private String tipo;
+    private static String tipo; 
+    // = {"gato","perro","lagarto","cobaya","periquito"};
 
     /*
      * Peso en gramos.
@@ -88,12 +89,12 @@ public class Animal {
     /*
      * Constructor copia.
      */
-    public Animal(Animal pet) {
-        this.fechaNacimiento = pet.fechaNacimiento;
-        this.nombre = pet.nombre;
-        this.tipo = pet.tipo;
-        this.peso = pet.peso;
-        this.estado = pet.estado;
+    public Animal(Animal copia) {
+        this.fechaNacimiento = copia.fechaNacimiento;
+        this.nombre = copia.nombre;
+        this.tipo = copia.tipo;
+        this.peso = copia.peso;
+        this.estado = copia.estado;
     }
 
     /*
@@ -144,11 +145,11 @@ public class Animal {
      */
     @Override
     public String toString() {
-        return "Animal [fechaNacimiento=" + fechaNacimiento +
-               ", nombre=" + nombre +
-               ", tipo=" + tipo +
-               ", peso=" + peso +
-               ", estado=" + estado + "]";
+        return "Animal = FechaNacimiento = " + fechaNacimiento +
+               ", Nombre = " + nombre +
+               ", Tipo = " + tipo +
+               ", Peso =" + peso +
+               ", Estado = " + estado + ".";
     }
 
     /*
@@ -211,27 +212,27 @@ public class Animal {
         estado = "jugando";
 
         if (cantidadMinutos < 30) {
-            peso = peso * 0.9;
+            peso = peso * 0.9; //10% del peso si es menos de 30
         } else {
             int bloques = cantidadMinutos / 30;
             for (int i = 0; i < bloques; i++) {
-                peso = peso * 0.8;
+                this.peso *= (0.8 * bloques); // 20% del peso por cada 30 minutos
             }
         }
     }
 
     /*
-     * Animal clonar(Animal pet),
+     * Animal clonar(Animal copia),
      * método de clase para clonar Animales (hacer una copia),
-     * que recibe el objeto Animal que queremos clonar, llamado pet,
-     * y devuelve el objeto con la copia de pet.
+     * que recibe el objeto Animal que queremos clonar, llamado copia,
+     * y devuelve el objeto con la copia de copia.
      * Ten en cuenta que este método crea un objeto nuevo.
      * Controla excepciones NullPointer en este método.
      */
-    public static Animal clonar(Animal pet) {
-        if (pet == null) {
+    public static Animal clonar(Animal copia) {
+        if (copia == null) {
             throw new NullPointerException("Animal nulo");
         }
-        return new Animal(pet);
+        return new Animal(copia);
     }
 }

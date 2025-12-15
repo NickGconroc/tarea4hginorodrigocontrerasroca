@@ -31,6 +31,8 @@ public class Persona {
     public String toString() {
         return "Persona [nombre=" + nombre + ", edad=" + edad + "]";
     }
+    //La clase persona tiene las siguientes responsabilidades es decir
+    //Metodos =
 
     /*
      * llamar (Animal pet).

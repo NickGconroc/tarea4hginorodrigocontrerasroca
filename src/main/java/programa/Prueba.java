@@ -43,8 +43,11 @@ public class Prueba {
          * p1 debe despertar a todos los animales.
          */
         p1.llamar(a1);
+        System.out.println(a1);
         p1.llamar(a2);
+        System.out.println(a2);
         p1.llamar(a3);
+        System.out.println(a3);
 
         /*
          * p2 juega con a2 durante 120 minutos.
