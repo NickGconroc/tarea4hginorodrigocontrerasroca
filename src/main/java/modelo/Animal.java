@@ -3,7 +3,7 @@ package modelo;
 import java.time.LocalDate;
 
 /*
- * La clase Animal será la representación abstracta de los objetos de tipo Animal
+ * La clase Animal será la representación abstracta de los objetos de TIPO Animal
  * y pertenece a un paquete llamado modelo.
  */
 public class Animal {
@@ -14,11 +14,15 @@ public class Animal {
      */
 
     /*
-     * Fecha de nacimiento, un objeto de tipo LocalDate.
+     * Fecha de nacimiento, un objeto de TIPO LocalDate.
      * Ten en cuenta que la fecha de nacimiento del animal no puede ser anterior
      * al 01/01/2000 ni posterior al día actual del sistema.
      */
     private LocalDate fechaNacimiento;
+
+    //declaro el enum
+    private TipoAnimal tipoAnimal;
+    private EstadoAnimal estadoAnimal;
 
     /*
      * Nombre
@@ -27,10 +31,11 @@ public class Animal {
 
     /*
      * Tipo, que puede ser: "gato", "perro", "lagarto", "cobaya", "periquito".
-     * El tipo una vez establecido no se puede cambiar.
+     * El TIPO una vez establecido no se puede cambiar.
      */
-    private static String tipo; 
-    // = {"gato","perro","lagarto","cobaya","periquito"};
+    public static final String[] TIPO = {"gato","perro","lagarto","cobaya","periquito"};
+    private String tipo;
+ 
 
     /*
      * Peso en gramos.
@@ -41,7 +46,19 @@ public class Animal {
     /*
      * Estado, que podrá ser: "comiendo", "durmiendo", "reposando" o "jugando".
      */
+    public static final String[] ESTADO = {"comiendo, durmiendo, reposando, jugando"};
     private String estado;
+
+    // recorrer array de tipos para ver si coincide con la del objeto
+    private static boolean recorrerTipos(String tipo) {
+
+        for (int i = 0; i < TIPO.length; i++) {
+            if (tipo.equals(TIPO[i])) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     /*
      * Métodos de la clase Animal:
@@ -59,16 +76,16 @@ public class Animal {
 
     /*
      * Constructor parametrizado, recibiendo un objeto LocalDate para indicar
-     * la fecha de nacimiento, el nombre del animal, el tipo y el peso.
-     * El estado al crear todos los animales será "reposo".
+     * la fecha de nacimiento, el nombre del animal, el TIPO y el peso.
+     * El ESTADO al crear todos los animales será "reposo".
      * En caso de que algún parámetro no se ajuste a las restricciones,
-     * se lanzará una excepción de tipo IllegalArgument,
+     * se lanzará una excepción de TIPO IllegalArgument,
      * indicando el mensaje apropiado.
      * En caso de que el peso sea negativo o mayor de 100000 gramos,
      * también se lanzará la excepción IllegalArgument,
      * con el mensaje correspondiente.
      */
-    public Animal(LocalDate fechaNacimiento, String nombre, String tipo, double peso) {
+    public Animal(LocalDate fechaNacimiento, String nombre, TipoAnimal tipo, double peso) {
 
         if (fechaNacimiento.isBefore(LocalDate.of(2000, 1, 1)) ||
             fechaNacimiento.isAfter(LocalDate.now())) {
@@ -81,9 +98,9 @@ public class Animal {
 
         this.fechaNacimiento = fechaNacimiento;
         this.nombre = nombre;
-        this.tipo = tipo;
+        this.tipoAnimal = tipo;
         this.peso = peso;
-        this.estado = "reposo";
+        this.estadoAnimal = EstadoAnimal.REPOSO;
     }
 
     /*
@@ -148,7 +165,7 @@ public class Animal {
         return "Animal = FechaNacimiento = " + fechaNacimiento +
                ", Nombre = " + nombre +
                ", Tipo = " + tipo +
-               ", Peso =" + peso +
+               ", Peso = " + peso +
                ", Estado = " + estado + ".";
     }
 
@@ -197,7 +214,7 @@ public class Animal {
      * Si la cantidad de minutos es negativa se considera positiva.
      * Un animal no puede jugar más de 180 minutos,
      * por lo tanto si se supera esa cantidad se lanzará una excepción
-     * de tipo IllegalArgument.
+     * de TIPO IllegalArgument.
      */
     public void jugar(int cantidadMinutos) {
 
