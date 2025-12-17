@@ -1,63 +1,63 @@
 package modelo;
 
-// Dentro del paquete modelo incluye la clase Persona.
-// Los atributos de las personas son: Nombre y Edad,
-// teniendo en cuenta que deben estar encapsulados.
-
 public class Persona {
 
+    //---------------- ATRIBUTOS ----------------
+
+    //nombre de la persona
     private String nombre;
+
+    //edad de la persona
     private int edad;
 
-    // Esta clase tendrá un constructor por defecto,
-    // otro parametrizado y
-    // toString.
+    //---------------- CONSTRUCTORES ----------------
 
-    public Persona() {
-        this.nombre = "Persona";
-        this.edad = 0;
+    //constructor por defecto
+    //inicializa la persona con valores basicos
+    public Persona(){
+        this.nombre="Persona";
+        this.edad=0;
     }
 
-    public Persona(String nombre, int edad) {
-        this.nombre = nombre;
-        this.edad = edad;
+    //constructor parametrizado
+    //permite crear una persona indicando nombre y edad
+    public Persona(String nombre,int edad){
+        this.nombre=nombre;
+        this.edad=edad;
     }
 
-    // toString.
+    //---------------- METODOS DE INSTANCIA ----------------
 
+    //devuelve una cadena con la informacion de la persona
     @Override
-    public String toString() {
-        return "Persona [nombre=" + nombre + ", edad=" + edad + "]";
+    public String toString(){
+        return "Persona[nombre="+nombre+",edad="+edad+"]";
     }
 
-    // La clase persona tiene las siguientes responsabilidades es decir
+    //---------------- ACCIONES SOBRE ANIMALES ----------------
 
-    // Metodos =
-
-    // llamar (Animal pet).
-    // Este método hace que la persona en cuestión despierte al animal pet.
-
-    public void llamar(Animal pet) {
+    //llamar a un animal
+    //la persona despierta al animal indicado
+    //el estado del animal pasa a reposando
+    public void llamar(Animal pet){
         pet.despertar();
     }
 
-    // alimentar (Animal pet, double cantidadGramos).
-    // En este caso la persona alimenta a pet con una cantidad de comida.
-
-    public void alimentar(Animal pet, double cantidadGramos) {
+    //alimentar a un animal
+    //la persona da una cantidad de comida al animal
+    //el peso del animal aumenta segun los gramos indicados
+    public void alimentar(Animal pet,double cantidadGramos){
         pet.comer(cantidadGramos);
     }
 
-    // jugar(Animal pet, int cantidadMinutos).
-    // La persona juega con pet la cantidad de minutos indicada en el parámetro.
-    // Este método debe controlar la excepción IllegalArgument,
-    // de forma que si la excepción se presenta
-    // entonces debe jugar con el animal la cantidad máxima de minutos permitida.
-
-    public void jugar(Animal pet, int cantidadMinutos) {
-        try {
+    //jugar con un animal
+    //la persona juega con el animal la cantidad de minutos indicada
+    //si se supera el limite permitido (180 minutos)
+    //se captura la excepcion y se juega el maximo permitido
+    public void jugar(Animal pet,int cantidadMinutos){
+        try{
             pet.jugar(cantidadMinutos);
-        } catch (IllegalArgumentException iae) {
+        }catch(IllegalArgumentException iae){
             pet.jugar(180);
         }
     }

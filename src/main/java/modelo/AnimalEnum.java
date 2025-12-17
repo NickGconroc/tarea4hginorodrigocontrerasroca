@@ -2,7 +2,8 @@ package modelo;
 
 import java.time.LocalDate;
 
-public class Animal {
+// Clase Animal usando enums para tipo y estado
+public class AnimalEnum {
 
     //---------------- ATRIBUTOS ----------------
 
@@ -13,59 +14,39 @@ public class Animal {
     //nombre del animal
     private String nombre;
 
-    //tipos permitidos segun el enunciado
-    //solo puede ser: gato, perro, lagarto, cobaya o periquito
-    public static final String[] TIPO={"gato","perro","lagarto","cobaya","periquito"};
-    private String tipo;
+    //tipo de animal usando enum
+    //solo puede ser uno de los definidos en TipoAnimal
+    private TipoAnimal tipo;
 
     //peso del animal en gramos
     //restriccion: minimo 10g y maximo 100000g
     private double peso;
 
-    //estados posibles del animal
-    //solo puede estar: comiendo, durmiendo, reposando o jugando
-    public static final String[] ESTADO={"comiendo","durmiendo","reposando","jugando"};
-    private String estado;
-
-    //---------------- METODOS DE CLASE ----------------
-
-    //comprueba que el tipo recibido sea uno de los permitidos en el array TIPO
-    private static boolean recorrerTipos(String tipo){
-        for(int i=0;i<TIPO.length;i++){
-            if(tipo.equals(TIPO[i])){
-                return true;
-            }
-        }
-        return false;
-    }
+    //estado del animal usando enum
+    //solo puede estar: COMIENDO, DURMIENDO, REPOSANDO o JUGANDO
+    private EstadoAnimal estado;
 
     //---------------- CONSTRUCTORES ----------------
 
     //constructor por defecto
     //inicializa el animal con valores fijos
-    public Animal(){
+    public AnimalEnum(){
         this.fechaNacimiento=LocalDate.of(2020,1,1);
         this.nombre="Animal";
-        this.tipo="gato";
+        this.tipo=TipoAnimal.GATO;          //valor por defecto del enum
         this.peso=1000;
-        this.estado="reposando";
+        this.estado=EstadoAnimal.REPOSANDO; //estado inicial
     }
 
     //constructor parametrizado
     //al crear el animal se validan todas las restricciones del enunciado
-    public Animal(LocalDate fechaNacimiento,String nombre,String tipo,double peso){
+    public AnimalEnum(LocalDate fechaNacimiento, String nombre, TipoAnimal tipo, double peso){
 
         //restriccion de fecha de nacimiento
         //no puede ser anterior al 01/01/2000 ni posterior a hoy
         if(fechaNacimiento.isBefore(LocalDate.of(2000,1,1))||
            fechaNacimiento.isAfter(LocalDate.now())){
             throw new IllegalArgumentException("Fecha de nacimiento fuera de rango");
-        }
-
-        //restriccion del tipo de animal
-        //solo se aceptan los tipos definidos en el array TIPO
-        if(!recorrerTipos(tipo)){
-            throw new IllegalArgumentException("Tipo de animal no válido");
         }
 
         //restriccion del peso
@@ -76,16 +57,14 @@ public class Animal {
 
         this.fechaNacimiento=fechaNacimiento;
         this.nombre=nombre;
-        this.tipo=tipo;
+        this.tipo=tipo;           //ya controlado por enum, no se necesita validar
         this.peso=peso;
-
-        //al crear el animal su estado inicial siempre es reposando
-        this.estado="reposando";
+        this.estado=EstadoAnimal.REPOSANDO; //estado inicial
     }
 
     //constructor copia
     //crea un nuevo animal copiando los datos de otro
-    public Animal(Animal copia){
+    public AnimalEnum(AnimalEnum copia){
         if(copia==null){
             throw new NullPointerException("Animal nulo");
         }
@@ -102,7 +81,6 @@ public class Animal {
         return fechaNacimiento;
     }
 
-    //al cambiar la fecha se mantienen las mismas restricciones del constructor
     public void setFechaNacimiento(LocalDate fechaNacimiento){
         if(fechaNacimiento.isBefore(LocalDate.of(2000,1,1))||
            fechaNacimiento.isAfter(LocalDate.now())){
@@ -119,9 +97,8 @@ public class Animal {
         this.nombre=nombre;
     }
 
-    //no hay setter de tipo porque el enunciado indica
-    //que el tipo una vez establecido no se puede cambiar
-    public String getTipo(){
+    //no hay setter de tipo porque el enunciado indica que no se puede cambiar
+    public TipoAnimal getTipo(){
         return tipo;
     }
 
@@ -129,7 +106,6 @@ public class Animal {
         return peso;
     }
 
-    //restriccion de peso tambien aplicada al setter
     public void setPeso(double peso){
         if(peso<10||peso>100000){
             throw new IllegalArgumentException("Peso fuera de rango");
@@ -137,76 +113,59 @@ public class Animal {
         this.peso=peso;
     }
 
-    public String getEstado(){
+    public EstadoAnimal getEstado(){
         return estado;
     }
 
-    public void setEstado(String estado){
+    public void setEstado(EstadoAnimal estado){
         this.estado=estado;
     }
 
     //---------------- METODOS DE INSTANCIA ----------------
 
-    //devuelve una cadena con la informacion actual del animal
     @Override
     public String toString(){
-        return "Animal[fechaNacimiento="+fechaNacimiento+
+        return "AnimalEnum[fechaNacimiento="+fechaNacimiento+
                ",nombre="+nombre+
                ",tipo="+tipo+
                ",peso="+peso+
                ",estado="+estado+"]";
     }
 
-    //comer
-    //incrementa el peso del animal
-    //si la cantidad es negativa se considera positiva
     public void comer(double cantidadGramos){
         if(cantidadGramos<0){
             cantidadGramos=Math.abs(cantidadGramos);
         }
         peso+=cantidadGramos;
-        estado="comiendo";
+        estado=EstadoAnimal.COMIENDO;
     }
 
-    //dormir
-    //cambia el estado del animal a durmiendo
     public void dormir(){
-        estado="durmiendo";
+        estado=EstadoAnimal.DURMIENDO;
     }
 
-    //despertar
-    //al despertar el animal pasa a estado reposando
     public void despertar(){
-        estado="reposando";
+        estado=EstadoAnimal.REPOSANDO;
     }
 
-    //descansar
-    //pone al animal en estado de reposo
     public void descansar(){
-        estado="reposando";
+        estado=EstadoAnimal.REPOSANDO;
     }
 
-    //jugar
-    //el animal juega una cantidad de minutos indicada
     public void jugar(int cantidadMinutos){
-
-        //si la cantidad de minutos es negativa se considera positiva
         if(cantidadMinutos<0){
             cantidadMinutos=Math.abs(cantidadMinutos);
         }
 
-        //restriccion: un animal no puede jugar mas de 180 minutos
         if(cantidadMinutos>180){
             throw new IllegalArgumentException("No puede jugar más de 180 minutos");
         }
 
-        estado="jugando";
+        estado=EstadoAnimal.JUGANDO;
 
-        //si juega menos de 30 minutos pierde un 10% de su peso
         if(cantidadMinutos<30){
             peso*=0.9;
         }else{
-            //por cada 30 minutos completos pierde un 20% del peso
             int bloques=cantidadMinutos/30;
             for(int i=0;i<bloques;i++){
                 peso*=0.8;
@@ -216,12 +175,10 @@ public class Animal {
 
     //---------------- METODOS ESTATICOS ----------------
 
-    //clonar
-    //crea un nuevo objeto Animal copiando otro existente
-    public static Animal clonar(Animal copia){
+    public static AnimalEnum clonar(AnimalEnum copia){
         if(copia==null){
             throw new NullPointerException("Animal nulo");
         }
-        return new Animal(copia);
+        return new AnimalEnum(copia);
     }
 }
